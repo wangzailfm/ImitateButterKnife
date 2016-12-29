@@ -13,13 +13,13 @@ import javax.lang.model.element.VariableElement;
 
 /**
  * Created by pc on 2016/12/22.
- * ±»OnClick×¢½â±ê¼ÇµÄ·½·¨µÄÄ£ĞÍÀà
+ * è¢«OnClickæ³¨è§£æ ‡è®°çš„æ–¹æ³•çš„æ¨¡å‹ç±»
  */
 public class OnClickMethod {
     private String onClickClassName = OnClick.class.getSimpleName();
 
     /**
-     * ×¢½â@OnClickµÄ·½·¨Ãû
+     * æ³¨è§£@OnClickçš„æ–¹æ³•å
      */
     private Name onClickMethodName;
     /**
@@ -33,15 +33,15 @@ public class OnClickMethod {
     private List<? extends VariableElement> mParamsList = new ArrayList<>();
 
     public OnClickMethod(Element element) throws IllegalArgumentException {
-        // ÅĞ¶ÏÊÇ·ñÊÇ·½·¨
+        // åˆ¤æ–­æ˜¯å¦æ˜¯æ–¹æ³•
         if (element.getKind() != ElementKind.METHOD) {
             throw new IllegalArgumentException(String.format("Only method can be annotated with @%s", onClickClassName));
         }
         ExecutableElement methodElement = (ExecutableElement) element;
-        // »ñÈ¡·½·¨Ãû
+        // è·å–æ–¹æ³•å
         onClickMethodName = methodElement.getSimpleName();
         mParamsList = methodElement.getParameters();
-        // »ñÈ¡×¢½âµÄÖµ
+        // è·å–æ³¨è§£çš„å€¼
         mResIds = new ArrayList<>();
         for (int mResId : methodElement.getAnnotation(OnClick.class).value()) {
             mResIds.add(mResId);
@@ -49,7 +49,7 @@ public class OnClickMethod {
     }
 
     /**
-     * »ñÈ¡·½·¨Ãû
+     * è·å–æ–¹æ³•å
      * @return
      */
     public Name getOnClickMethodName() {
@@ -57,7 +57,7 @@ public class OnClickMethod {
     }
 
     /**
-     * »ñÈ¡×¢½âµÄÖµ
+     * è·å–æ³¨è§£çš„å€¼
      * @return
      */
     public List<Integer> getResIds() {
@@ -65,7 +65,7 @@ public class OnClickMethod {
     }
 
     /**
-     * »ñÈ¡params
+     * è·å–params
      * @return
      */
     public List<? extends VariableElement> getParamsList() {

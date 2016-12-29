@@ -1,12 +1,12 @@
 package com.wangzai.model;
 
+import com.wangzai.TypeClassName;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
-import com.wangzai.TypeClassName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,27 +17,27 @@ import javax.lang.model.util.Elements;
 
 /**
  * Created by pc on 2016/12/22.
- * ±»BindViewId×¢½âµÄÀà¶ÔÏó
+ * è¢«BindViewIdæ³¨è§£çš„ç±»å¯¹è±¡
  */
 public class BindViewClass {
 
     /**
-     * ÀàÃû
+     * ç±»å
      */
     private TypeElement mTypeElement;
 
     /**
-     * ¾ßÓĞ@BindViewId×¢½âµÄ±äÁ¿list
+     * å…·æœ‰@BindViewIdæ³¨è§£çš„å˜é‡list
      */
     private List<BindViewIdField> mBindViewIdFields;
 
     /**
-     * ¾ßÓĞ@OnClick×¢½âµÄ±äÁ¿list
+     * å…·æœ‰@OnClickæ³¨è§£çš„å˜é‡list
      */
     private List<OnClickMethod> mOnClickMethods;
 
     /**
-     * ÔªËØÏà¹ØµÄ¸¨ÖúÀà
+     * å…ƒç´ ç›¸å…³çš„è¾…åŠ©ç±»
      */
     private Elements mElements;
 
@@ -49,17 +49,17 @@ public class BindViewClass {
     }
 
     /**
-     * ´´½¨java´úÂë
+     * åˆ›å»ºjavaä»£ç 
      * @return
      */
     public JavaFile generateCode() {
-        // »ñÈ¡°üÃû
+        // è·å–åŒ…å
         String packageName = getPackageName(mTypeElement);
-        // »ñÈ¡ÀàÃû
+        // è·å–ç±»å
         String className = getClassName(mTypeElement, packageName);
-        // »ñÈ¡ClassName
+        // è·å–ClassName
         ClassName bindClassName = ClassName.get(packageName, className);
-        // ´´½¨unBind·½·¨
+        // åˆ›å»ºunBindæ–¹æ³•
         MethodSpec.Builder unBinderMethod = MethodSpec.methodBuilder("unBind")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC);
@@ -68,13 +68,13 @@ public class BindViewClass {
         unBinderMethod.addStatement("throw new $T(\"Bindings already cleared.\")", IllegalStateException.class);
         unBinderMethod.endControlFlow();
         unBinderMethod.beginControlFlow("else");
-        // ¹¹Ôì·½·¨
+        // æ„é€ æ–¹æ³•
         MethodSpec.Builder buildViewMethod = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(TypeClassName.T, "target", Modifier.FINAL)
                 .addParameter(TypeClassName.VIEW, "source");
         buildViewMethod.addStatement("this.target = target");
-        // ´´½¨findViewById
+        // åˆ›å»ºfindViewById
         if (mBindViewIdFields.size() > 0) {
             for (BindViewIdField bindViewIdField : mBindViewIdFields) {
                 buildViewMethod.addStatement("target.$N = ($T) $T.findRequiredViewAsType(source, $L, $S, $N)",
@@ -84,7 +84,7 @@ public class BindViewClass {
                         bindViewIdField.getFieldResId(),
                         bindViewIdField.getFieldName().toString(),
                         bindViewIdField.getFieldClass() + ".class");
-                // ´´½¨onClick
+                // åˆ›å»ºonClick
                 if (mOnClickMethods.size() > 0) {
                     StringBuilder onclick = new StringBuilder();
                     for (OnClickMethod onClickMethod : mOnClickMethods) {
@@ -114,19 +114,19 @@ public class BindViewClass {
         }
         unBinderMethod.addStatement("target = null");
         unBinderMethod.endControlFlow();
-        // ¹¹ÔìÀà
+        // æ„é€ ç±»
         TypeSpec.Builder viewBinder = TypeSpec.classBuilder(String.format("%s_ViewBinder", bindClassName.simpleName()))
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(TypeClassName.UNBINDER)
                 .addField(FieldSpec.builder(TypeClassName.T, "target", Modifier.PROTECTED).build())
-                .addTypeVariable(TypeVariableName.get("T", bindClassName)) // Ìí¼Ó·ºĞÍ<T extends MainActivity>
+                .addTypeVariable(TypeVariableName.get("T", bindClassName)) // æ·»åŠ æ³›å‹<T extends MainActivity>
                 .addMethod(buildViewMethod.build())
                 .addMethod(unBinderMethod.build());
         return JavaFile.builder(packageName, viewBinder.build()).build();
     }
 
     /**
-     * »ñÈ¡°üÃû
+     * è·å–åŒ…å
      *
      * @return String
      */
@@ -135,25 +135,25 @@ public class BindViewClass {
     }
 
     /**
-     * Ìí¼Óµ½list
+     * æ·»åŠ åˆ°list
      *
-     * @param field °üº¬×¢½âµÄ±äÁ¿
+     * @param field åŒ…å«æ³¨è§£çš„å˜é‡
      */
     public void addBindViewIdField(BindViewIdField field) {
         mBindViewIdFields.add(field);
     }
 
     /**
-     * Ìí¼Óµ½list
+     * æ·»åŠ åˆ°list
      *
-     * @param onClickMethod °üº¬×¢½âµÄ·½·¨
+     * @param onClickMethod åŒ…å«æ³¨è§£çš„æ–¹æ³•
      */
     public void addOnClickMethod(OnClickMethod onClickMethod) {
         mOnClickMethods.add(onClickMethod);
     }
 
     /**
-     * ÀàÃû
+     * ç±»å
      */
     private static String getClassName(TypeElement type, String packageName) {
         int packageLen = packageName.length() + 1;

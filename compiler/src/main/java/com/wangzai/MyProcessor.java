@@ -1,9 +1,9 @@
 package com.wangzai;
 
-import com.google.auto.service.AutoService;
 import com.wangzai.model.BindViewClass;
 import com.wangzai.model.BindViewIdField;
 import com.wangzai.model.OnClickMethod;
+import com.google.auto.service.AutoService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,36 +25,36 @@ import javax.lang.model.util.Elements;
 @AutoService(Processor.class)
 public class MyProcessor extends AbstractProcessor {
     /**
-     * ÎÄ¼şÏà¹ØµÄ¸¨ÖúÀà
+     * æ–‡ä»¶ç›¸å…³çš„è¾…åŠ©ç±»
      */
     private Filer mFiler;
     /**
-     * ÔªËØÏà¹ØµÄ¸¨ÖúÀà
+     * å…ƒç´ ç›¸å…³çš„è¾…åŠ©ç±»
      */
     private Elements mElementUtils;
     /**
-     * ÈÕÖ¾Ïà¹ØµÄ¸¨ÖúÀà
+     * æ—¥å¿—ç›¸å…³çš„è¾…åŠ©ç±»
      */
     private Messager mMessager;
     /**
-     * ½âÎöµÄÄ¿±ê×¢½â¼¯ºÏ
+     * è§£æçš„ç›®æ ‡æ³¨è§£é›†åˆ
      */
     private Map<String, BindViewClass> mBindViewClassMap = new HashMap<>();
 
     /**
-     * ×¢½â´¦ÀíÆ÷Òª´¦ÀíµÄ×¢½âÀàĞÍ,ÖµÎªÍêÈ«ÏŞ¶¨Ãû£¨¾ÍÊÇ´øËùÔÚ°üÃûºÍÂ·¾¶µÄÀàÈ«Ãû£©
+     * æ³¨è§£å¤„ç†å™¨è¦å¤„ç†çš„æ³¨è§£ç±»å‹,å€¼ä¸ºå®Œå…¨é™å®šåï¼ˆå°±æ˜¯å¸¦æ‰€åœ¨åŒ…åå’Œè·¯å¾„çš„ç±»å…¨åï¼‰
      */
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> types = new LinkedHashSet<>();
-        // ·µ»Ø¸Ã×¢½â´¦ÀíÆ÷Ö§³ÖµÄ×¢½â¼¯ºÏ
+        // è¿”å›è¯¥æ³¨è§£å¤„ç†å™¨æ”¯æŒçš„æ³¨è§£é›†åˆ
         types.add(BindViewId.class.getCanonicalName());
         return types;
     }
 
     /**
-     * Ö¸¶¨Ö§³ÖµÄ java °æ±¾£¬Í¨³£·µ»Ø SourceVersion.latestSupported()
-     * @return java °æ±¾
+     * æŒ‡å®šæ”¯æŒçš„ java ç‰ˆæœ¬ï¼Œé€šå¸¸è¿”å› SourceVersion.latestSupported()
+     * @return java ç‰ˆæœ¬
      */
     @Override
     public SourceVersion getSupportedSourceVersion() {
@@ -62,8 +62,8 @@ public class MyProcessor extends AbstractProcessor {
     }
 
     /**
-     * init·½·¨ÊÇÔÚProcessor´´½¨Ê±±»javacµ÷ÓÃ²¢Ö´ĞĞ³õÊ¼»¯²Ù×÷¡£
-     * @param processingEnvironment Ìá¹©Ò»ÏµÁĞµÄ×¢½â´¦Àí¹¤¾ß¡£
+     * initæ–¹æ³•æ˜¯åœ¨Processoråˆ›å»ºæ—¶è¢«javacè°ƒç”¨å¹¶æ‰§è¡Œåˆå§‹åŒ–æ“ä½œã€‚
+     * @param processingEnvironment æä¾›ä¸€ç³»åˆ—çš„æ³¨è§£å¤„ç†å·¥å…·ã€‚
      */
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -73,10 +73,10 @@ public class MyProcessor extends AbstractProcessor {
     }
 
     /**
-     * ×¢½â´¦ÀíĞèÒªÖ´ĞĞÒ»´Î»òÕß¶à´Î¡£Ã¿´Î½âÎöÇ°¶¼ÒªÇå¿Õ£¬´¦ÀíÆ÷·½·¨±»µ÷ÓÃ£¬²¢ÇÒ´«ÈëÁËµ±Ç°Òª´¦ÀíµÄ×¢½âÀàĞÍ¡£
-     * ¿ÉÒÔÔÚÕâ¸ö·½·¨ÖĞÉ¨ÃèºÍ´¦Àí×¢½â£¬²¢Éú³ÉJava´úÂë¡£
-     * @param annotations µ±Ç°Òª´¦ÀíµÄ×¢½âÀàĞÍ
-     * @param roundEnvironment Õâ¸ö¶ÔÏóÌá¹©µ±Ç°»òÕßÉÏÒ»´Î×¢½â´¦ÀíÖĞ±»×¢½â±ê×¢µÄÔ´ÎÄ¼şÔªËØ¡££¨»ñµÃËùÓĞ±»±ê×¢µÄÔª   ËØ£©
+     * æ³¨è§£å¤„ç†éœ€è¦æ‰§è¡Œä¸€æ¬¡æˆ–è€…å¤šæ¬¡ã€‚æ¯æ¬¡è§£æå‰éƒ½è¦æ¸…ç©ºï¼Œå¤„ç†å™¨æ–¹æ³•è¢«è°ƒç”¨ï¼Œå¹¶ä¸”ä¼ å…¥äº†å½“å‰è¦å¤„ç†çš„æ³¨è§£ç±»å‹ã€‚
+     * å¯ä»¥åœ¨è¿™ä¸ªæ–¹æ³•ä¸­æ‰«æå’Œå¤„ç†æ³¨è§£ï¼Œå¹¶ç”ŸæˆJavaä»£ç ã€‚
+     * @param annotations å½“å‰è¦å¤„ç†çš„æ³¨è§£ç±»å‹
+     * @param roundEnvironment è¿™ä¸ªå¯¹è±¡æä¾›å½“å‰æˆ–è€…ä¸Šä¸€æ¬¡æ³¨è§£å¤„ç†ä¸­è¢«æ³¨è§£æ ‡æ³¨çš„æºæ–‡ä»¶å…ƒç´ ã€‚ï¼ˆè·å¾—æ‰€æœ‰è¢«æ ‡æ³¨çš„å…ƒ   ç´ ï¼‰
      */
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
@@ -101,41 +101,41 @@ public class MyProcessor extends AbstractProcessor {
     }
 
     /**
-     * »ñÈ¡RoundEnvironmentÀïÃæµÄ@BindViewId×¢½â
+     * è·å–RoundEnvironmenté‡Œé¢çš„@BindViewIdæ³¨è§£
      * @param roundEnvironment RoundEnvironment
      */
     private void getBindViewIdForRoundEnv(RoundEnvironment roundEnvironment) {
         for (Element element : roundEnvironment.getElementsAnnotatedWith(BindViewId.class)) {
             BindViewClass bindViewClass = getBindViewClass(element);
-            // ÍùBindViewClassÀïÃæÌí¼Ófield
+            // å¾€BindViewClassé‡Œé¢æ·»åŠ field
             bindViewClass.addBindViewIdField(new BindViewIdField(element));
         }
     }
 
 
     /**
-     * »ñÈ¡RoundEnvironmentÀïÃæµÄ@OnClick×¢½â
+     * è·å–RoundEnvironmenté‡Œé¢çš„@OnClickæ³¨è§£
      * @param roundEnvironment RoundEnvironment
      */
     private void getOnClickForRoundEnv(RoundEnvironment roundEnvironment) {
         for (Element element : roundEnvironment.getElementsAnnotatedWith(OnClick.class)) {
             BindViewClass bindViewClass = getBindViewClass(element);
-            // ÍùBindViewClassÀïÃæÌí¼Ó·½·¨
+            // å¾€BindViewClassé‡Œé¢æ·»åŠ æ–¹æ³•
             bindViewClass.addOnClickMethod(new OnClickMethod(element));
         }
     }
 
     /**
-     * »ñÈ¡BindViewClass
+     * è·å–BindViewClass
      * @param element
      * @return
      */
     private BindViewClass getBindViewClass(Element element) {
-        // »ñÈ¡µ±Ç°ElementËùÔÚµÄTypeElement
+        // è·å–å½“å‰Elementæ‰€åœ¨çš„TypeElement
         TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
-        // »ñÈ¡TypeElementµÄÀàÈ«Ãû
+        // è·å–TypeElementçš„ç±»å…¨å
         String fullClassName = enclosingElement.getQualifiedName().toString();
-        // Èç¹ûÔÚmapÖĞ´æÔÚ¾ÍÖ±½ÓÓÃ£¬²»´æÔÚ¾Ínew³öÀ´·ÅÔÚmapÀï
+        // å¦‚æœåœ¨mapä¸­å­˜åœ¨å°±ç›´æ¥ç”¨ï¼Œä¸å­˜åœ¨å°±newå‡ºæ¥æ”¾åœ¨mapé‡Œ
         BindViewClass bindViewClass = mBindViewClassMap.get(fullClassName);
         if (bindViewClass == null) {
             bindViewClass = new BindViewClass(mElementUtils, enclosingElement);

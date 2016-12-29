@@ -10,16 +10,16 @@ import javax.lang.model.type.TypeMirror;
 
 /**
  * Created by pc on 2016/12/22.
- * ±»BindViewId×¢½â±ê¼ÇµÄ×Ö¶ÎµÄÄ£ĞÍÀà
+ * è¢«BindViewIdæ³¨è§£æ ‡è®°çš„å­—æ®µçš„æ¨¡å‹ç±»
  */
 public class BindViewIdField {
     private String bindViewIdFieldClassName = BindViewId.class.getSimpleName();
     /**
-     * PackageElement        °ü
-     * ExecutableElement    ·½·¨¡¢¹¹Ôì·½·¨
-     * VariableElement       ³ÉÔ±±äÁ¿¡¢enum³£Á¿¡¢·½·¨»ò¹¹Ôì·½·¨²ÎÊı¡¢¾Ö²¿±äÁ¿»òÒì³£²ÎÊı¡£
-     * TypeElement           Àà¡¢½Ó¿Ú
-     * TypeParameterElement  ÔÚ·½·¨»ò¹¹Ôì·½·¨¡¢Àà¡¢½Ó¿Ú´¦¶¨ÒåµÄ·ºĞÍ²ÎÊı¡£
+     * PackageElement        åŒ…
+     * ExecutableElement    æ–¹æ³•ã€æ„é€ æ–¹æ³•
+     * VariableElement       æˆå‘˜å˜é‡ã€enumå¸¸é‡ã€æ–¹æ³•æˆ–æ„é€ æ–¹æ³•å‚æ•°ã€å±€éƒ¨å˜é‡æˆ–å¼‚å¸¸å‚æ•°ã€‚
+     * TypeElement           ç±»ã€æ¥å£
+     * TypeParameterElement  åœ¨æ–¹æ³•æˆ–æ„é€ æ–¹æ³•ã€ç±»ã€æ¥å£å¤„å®šä¹‰çš„æ³›å‹å‚æ•°ã€‚
      */
     private VariableElement mVariableElement;
     /**
@@ -28,12 +28,12 @@ public class BindViewIdField {
     private int mResId;
 
     public BindViewIdField(Element element) throws IllegalArgumentException {
-        // ÅĞ¶ÏÊÇ·ñÊÇ³ÉÔ±±äÁ¿
+        // åˆ¤æ–­æ˜¯å¦æ˜¯æˆå‘˜å˜é‡
         if (element.getKind() != ElementKind.FIELD) {
             throw new IllegalArgumentException(String.format("Only field can be annotated with @%s", bindViewIdFieldClassName));
         }
         mVariableElement = (VariableElement) element;
-        // »ñÈ¡×¢½âºÍidÖµ
+        // è·å–æ³¨è§£å’Œidå€¼
         BindViewId bindViewId = mVariableElement.getAnnotation(BindViewId.class);
         mResId = bindViewId.value();
         if (mResId < 0) {
@@ -43,7 +43,7 @@ public class BindViewIdField {
     }
 
     /**
-     * »ñÈ¡±äÁ¿Ãû
+     * è·å–å˜é‡å
      *
      * @return Name
      */
@@ -52,7 +52,7 @@ public class BindViewIdField {
     }
 
     /**
-     * »ñÈ¡id
+     * è·å–id
      *
      * @return int
      */
@@ -61,7 +61,7 @@ public class BindViewIdField {
     }
 
     /**
-     * »ñÈ¡±äÁ¿ÀàĞÍ
+     * è·å–å˜é‡ç±»å‹
      *
      * @return TypeMirror
      */
@@ -70,7 +70,7 @@ public class BindViewIdField {
     }
 
     /**
-     * »ñÈ¡±äÁ¿ÀàĞÍ£¬ÈçTextView
+     * è·å–å˜é‡ç±»å‹ï¼Œå¦‚TextView
      * @return
      */
     public String getFieldClass() {
